@@ -15,7 +15,7 @@ public class UserController {
     public Object getOneUser(@PathVariable("id") String userId,
                              RestTemplate restTemplate){
 
-    String url = "https://gorest.co.in/public/v2/users?access-token=640b92322772b544c91b13e11b180ac3e24157879f6da64af338e07ba655fd17";
+    String url = "https://gorest.co.in/public/v2/users";
     return restTemplate.getForObject(url, Object.class);
     }
 
