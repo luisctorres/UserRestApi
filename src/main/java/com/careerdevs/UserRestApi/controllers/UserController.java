@@ -14,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/api/user")
     public class UserController {
 
-
     @Autowired
     Environment env;
 
@@ -32,7 +31,7 @@ import org.springframework.web.client.RestTemplate;
         try {
         String url = "https://gorest.co.in/public/v2/users/" + userId;
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("640b92322772b544c91b13e11b180ac3e24157879f6da64af338e07ba655fd17");
+        headers.setBasicAuth(getToken());
 
         HttpEntity<Object> request = new HttpEntity<>(headers);
 
@@ -50,19 +49,19 @@ import org.springframework.web.client.RestTemplate;
 
     //Post mapping to add user
     @PostMapping("/")
-    public ResponseEntity postUser(
+    public Object postUser(
             RestTemplate restTemplate,
             @RequestBody UserModel newUser) {
 
-            String url = "https://gorest.co.in/public/v2/users/";
-            HttpHeaders headers = new HttpHeaders();
-            headers.setBasicAuth("640b92322772b544c91b13e11b180ac3e24157879f6da64af338e07ba655fd17");
+        String url = "https://gorest.co.in/public/v2/users?access-token=640b92322772b544c91b13e11b180ac3e24157879f6da64af338e07ba655fd17";
+        HttpHeaders headers = new HttpHeaders();
+        //headers.setBearerAuth(getToken());
+//        UserModel newUser = new UserModel(name, email, gender, status);
 
-            HttpEntity<UserModel> request = new HttpEntity<UserModel>(newUser);
-            return restTemplate.postForEntity(url, request, UserModel.class);
+        HttpEntity<UserModel> request = new HttpEntity<>(newUser);
+        return restTemplate.postForEntity(url, request, UserModel.class);
 
     }
-
 
 
 }

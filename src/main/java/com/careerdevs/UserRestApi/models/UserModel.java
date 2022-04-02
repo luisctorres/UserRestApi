@@ -42,7 +42,14 @@ public class UserModel {
         return name + " is currently " + status + ". You can reach them at: " + email;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
