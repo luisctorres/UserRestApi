@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -61,6 +62,42 @@ import org.springframework.web.client.RestTemplate;
         HttpEntity<UserModel> request = new HttpEntity<>(newUser);
         return restTemplate.postForEntity(url, request, UserModel.class);
 
+    }
+
+    //put request for user
+    @PutMapping("/")
+    public ResponseEntity putUser(
+            RestTemplate restTemplate,
+            @RequestBody UserModel updateData
+    ) {
+        try {
+
+            String url = "https://gorest.co.in/public/v2/users/" + updateData.getId();
+            String token = env.getProperty("GO_REST_TOKEN");
+            url += "?access-token=" + token;
+
+            HttpEntity<UserModel> request = new HttpEntity<>(updateData);
+
+            ResponseEntity<UserModel> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.PUT,
+                    request,
+                    UserModel.class
+            );
+
+            return new ResponseEntity(response.getBody(), HttpStatus.OK);
+
+
+        } catch (HttpClientErrorException.UnprocessableEntity e) {
+
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+
+        } catch (Exception e) {
+            System.out.println(e.getClass() + "\n" + e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
     }
 
 
