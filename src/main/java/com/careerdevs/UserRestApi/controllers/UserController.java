@@ -44,7 +44,7 @@ import org.springframework.web.client.RestTemplate;
                                     );
             }
              catch (Exception exception) {
-                    return "404: No user exists with the ID " + userId;
+                    return "404: No user exists with the ID: " + userId;
             }
         }
 
